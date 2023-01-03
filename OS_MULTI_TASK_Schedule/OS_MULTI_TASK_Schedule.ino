@@ -26,7 +26,7 @@ unsigned char *encrypted,*decrypted,*unpadding_decrypted;;  // why we use unsign
 uint8_t padding_plainText_length_global; 
 uint8_t padding_len ;
 char * key = "9728908140000000";
-char * authkey = "hardcoded"; //we could use DH-algo to decide on a key, but the assistants told us this would suffice, as to simulate the key being e.g. hardcoded in
+char * authkey = "hardcoded"; 
 const int HMAC_result_length = 32;
 
 
