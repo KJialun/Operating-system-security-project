@@ -6,20 +6,22 @@
 
 
 
-/*=========================== 用户自定义全局变量&宏定义 =============================*/
+/*=========================== Hardware IO =============================*/
 #define Sensor 26
 #define button 27
 #define LED 32
-// #define LED2 33
+#define LED2 33
 #define BUFFER_SIZE 16  // AES 128 bit => 16 byte 
 
-/*=========================== 全局变量及宏定义 =============================*/
+/*=========================== Global variable =============================*/
 //Sensor
 int sample_error;
 uint8_t temperature = 0;
 uint8_t humidity = 0;
 int Received_temperature = 0;
 int Received_humidity = 0;
+
+int  Mode=0;  // MODE =0  without encryption      MODE=1  encryption
 
 unsigned char *encrypted,*decrypted,*unpadding_decrypted;;  // why we use unsigned char *?  1. because the  output of  mbedtls_aes_crypt_ecb() is unsigned char  
 //more reasons check:  https://stackoverflow.com/questions/14769917/when-to-use-unsigned-char-pointer#:~:text=The%20unsinged%20char%20type%20is%20usually%20used%20as,the%20binary%20data%20buffer%20%28or%20its%201st%20element%29.
@@ -88,6 +90,10 @@ void setup()
 {
   Serial.begin(115200); //设置串口波特率
   pinMode(LED, OUTPUT); //电源、WIFI连接状态指示灯
+  pinMode(LED2, OUTPUT); //Encryption 指示灯
+  digitalWrite(LED, LOW);
+  digitalWrite(LED2, LOW);
+  attachInterrupt(button, Switch, RISING);
   /*====================用户初始化=======================*/
   /**如 IO口模式初始化**/
 
@@ -281,55 +287,63 @@ void ThreadSensorEntry(void *pvParameters)
     // package temperature and humidity data into plaintext
     sprintf(plainText, "%d%d", (int)temperature,(int)humidity);
     Serial.println(plainText);                                          //串口查看
-    // encryption
-    encrypt(plainText, key, &encrypted,&padding_plainText_length_global);                
-  
-    Serial.println("\nCiphered Hex :");
-    for (int i = 0; i < padding_plainText_length_global; i++) {
-  
-      Serial.printf("%02x",encrypted[i]);
-      Serial.printf(" "); 
+    if(Mode==0){
+      mqttClient.publish("dataESP1", (char *)plainText,(unsigned int)strlen(plainText));
+
+    }else{    
+            // encryption
+            encrypt(plainText, key, &encrypted,&padding_plainText_length_global);                
+          
+            Serial.println("\nCiphered Hex :");
+            for (int i = 0; i < padding_plainText_length_global; i++) {
+          
+              Serial.printf("%02x",encrypted[i]);
+              Serial.printf(" "); 
+            }
+            Serial.println("");
+              
+            //authentication
+            unsigned char hmacResult[HMAC_result_length]; 
+            HMAC((char*)encrypted, authkey, hmacResult, HMAC_result_length, false );
+
+            //integrity
+            unsigned char hashResult[HMAC_result_length];
+            hash((char*)encrypted, hashResult, HMAC_result_length, false);
+
+            //now, these three bytestrings should be concatenated and sent through the internet
+            int totallength = padding_plainText_length_global + HMAC_result_length + HMAC_result_length + 1;
+            unsigned char total_byte_stream[totallength];
+            for (int i = 0; i < padding_plainText_length_global; i++){
+              total_byte_stream[i] = encrypted[i];
+            }
+            free(encrypted);  
+
+            for (int i = padding_plainText_length_global; i < padding_plainText_length_global + HMAC_result_length; i++){
+              total_byte_stream[i] = hmacResult[i-padding_plainText_length_global];
+            }
+            for (int i = padding_plainText_length_global + HMAC_result_length; i < totallength-1; i++){
+              total_byte_stream[i] = hashResult[i- padding_plainText_length_global - HMAC_result_length];
+            }
+
+              char _hex_sub[3];
+              sprintf(_hex_sub, "%02x", padding_plainText_length_global);
+              char _hex = (char)strtol(_hex_sub, NULL, 16);  // convert byte to Hex   example :  26  => 1A  
+
+              total_byte_stream[totallength-1] =(unsigned char) _hex;
+
+
+              Serial.println("\n\nTotal sent  Hex:");
+
+              for (int i = 0; i < totallength; i++) {
+                Serial.printf("%02x",total_byte_stream[i]);
+                Serial.printf(" "); 
+              }
+
+            mqttClient.publish("encryptESP1", (char *)total_byte_stream,(unsigned int)totallength);
     }
-    Serial.println("");
-      
-    //authentication
-    unsigned char hmacResult[HMAC_result_length]; 
-    HMAC((char*)encrypted, authkey, hmacResult, HMAC_result_length, false );
-
-    //integrity
-    unsigned char hashResult[HMAC_result_length];
-    hash((char*)encrypted, hashResult, HMAC_result_length, false);
-
-    //now, these three bytestrings should be concatenated and sent through the internet
-    int totallength = padding_plainText_length_global + HMAC_result_length + HMAC_result_length + 1;
-    unsigned char total_byte_stream[totallength];
-    for (int i = 0; i < padding_plainText_length_global; i++){
-      total_byte_stream[i] = encrypted[i];
-    }
-    free(encrypted);  
-
-    for (int i = padding_plainText_length_global; i < padding_plainText_length_global + HMAC_result_length; i++){
-      total_byte_stream[i] = hmacResult[i-padding_plainText_length_global];
-    }
-    for (int i = padding_plainText_length_global + HMAC_result_length; i < totallength-1; i++){
-      total_byte_stream[i] = hashResult[i- padding_plainText_length_global - HMAC_result_length];
-    }
-
-      char _hex_sub[3];
-      sprintf(_hex_sub, "%02x", padding_plainText_length_global);
-      char _hex = (char)strtol(_hex_sub, NULL, 16);  // convert byte to Hex   example :  26  => 1A  
-
-      total_byte_stream[totallength-1] =(unsigned char) _hex;
 
 
-      Serial.println("\n\nTotal sent  Hex:");
 
-      for (int i = 0; i < totallength; i++) {
-        Serial.printf("%02x",total_byte_stream[i]);
-        Serial.printf(" "); 
-      }
-
-    mqttClient.publish("dataESP1", (char *)total_byte_stream,(unsigned int)totallength);
     vTaskDelay(pdMS_TO_TICKS(3000));      
     }  
 
@@ -345,8 +359,21 @@ void TIMAlarmLEDEntry(TimerHandle_t xTimer)
 {
   digitalWrite(LED, !digitalRead(LED));
 }
-/*======================================== Encryption & Decreption Function =========================================*/
+/*========================================Interrupt function =========================================*/
+void Switch()  //interrupt function :
+{
+    Mode=Mode+1;
+   if (Mode ==2){ 
+     Mode=0;
+    }
 
+   if (Mode == 0){ 
+      digitalWrite(LED2, LOW);     
+    }else{
+      digitalWrite(LED2, HIGH);
+    }
+}
+/*======================================== Encryption & Decreption Function =========================================*/
 void PKCS5_padding(char* input,char** output, uint8_t* len) {
 
   uint8_t input_length = strlen(input);
@@ -591,7 +618,7 @@ void wifi_connect()
   // }
 }
 
-//
+
 /*
  * @brief:MQTT连接
  * @param:none
@@ -646,7 +673,7 @@ void mqtt_connect()
     */
 
     mqttClient.subscribe("dataESP1", 0);
-    // mqttClient.subscribe("/LED_OFF", 0);
+    mqttClient.subscribe("encryptESP1", 0);
     // mqttClient.subscribe("/test", 0);
     /**
     * 发出消息
@@ -675,7 +702,19 @@ void callback(char* topic, byte* message, unsigned int length)
   Serial.printf(" "); 
   Serial.println("Message arrived on topic: ");
   Serial.println(topic);
+  if (Mode == 0){
+  String temp;           //存放消息
 
+     for (uint8_t i = 0; i < length ; i++) {
+      temp += (char)message[i];
+    }; 
+     Serial.println("Received message: ");
+     Serial.println(temp);
+  }
+
+
+
+  if (Mode == 1){
       for (uint8_t i = 0; i < length ; i++) {
         Received[i]= ( char)message[i];
       }; 
@@ -772,6 +811,7 @@ void callback(char* topic, byte* message, unsigned int length)
           }else{
               Serial.println("\n\n Authentication check failed");
           }
+  }
 
 }
 
