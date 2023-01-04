@@ -7,6 +7,8 @@ Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 - mosquitto : MQTT server Software
 - lib : the libraries used in this project 
 
+## ESP32 Schematic setup 
+![ELEC-H423_Schematic](https://user-images.githubusercontent.com/121833181/210653659-dc7ec7e6-5297-4bad-ac72-5906f5f74ae3.png)
 
 ## Useful reference link 
 
