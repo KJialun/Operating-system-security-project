@@ -2,11 +2,19 @@
 Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 
 
-ESP32 ARDUINO BOARD  CONFIG
+Connect your ESP32 to the Arduino IDE:
+
+https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
+
+Additional boards manager URLs: 
 
 https://dl.espressif.com/dl/package_esp32_index.json 
 
 https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+
+Make your first program using the arduino IDE:
+
+https://docs.arduino.cc/built-in-examples/basics/Blink
 
 esp32 MQTT Node-red reference
 
@@ -14,6 +22,6 @@ https://www.bilibili.com/video/BV14G4y1h7aJ/?spm_id_from=333.1007.top_right_bar_
 
 https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
 
-freertos base on esp32
+Freertos base on esp32 tutorial videos 
 
 https://www.youtube.com/watch?v=F321087yYy4&list=PLEBQazB0HUyQ4hAPU1cJED6t3DU0h34bz
