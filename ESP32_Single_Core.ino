@@ -19,8 +19,8 @@ uint32_t loop_gpio(uint32_t count) {
 
   start_millis=millis();
   for (pos=0; pos<count; pos++) { 
-    digitalWrite(13, HIGH);
-    digitalWrite(13, LOW);
+    digitalWrite(32, HIGH);
+    digitalWrite(32, LOW);
   }
   stop_millis=millis();
 
