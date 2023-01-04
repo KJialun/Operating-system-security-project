@@ -2,9 +2,10 @@
 Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 
 ## Document description :
-CP210x_Universal_Windows_Driver : ESP32 driver 
-mosquitto : MQTT server Software
-lib : the libraries used in this project 
+
+- CP210x_Universal_Windows_Driver : ESP32 driver 
+- mosquitto : MQTT server Software
+- lib : the libraries used in this project 
 
 
 ## Useful reference link 
