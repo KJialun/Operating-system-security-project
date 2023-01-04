@@ -20,10 +20,6 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 https://docs.arduino.cc/built-in-examples/basics/Blink
 
-- Esp32 - DH11 Sensor - MQTT - Node-red application code (tutorial example):
-
-https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
-
 - Esp32 - AES encryption & decryption  
 
 https://techtutorialsx.com/2018/04/18/esp32-arduino-encryption-using-aes-128-in-ecb-mode/
@@ -42,9 +38,21 @@ https://en.wikipedia.org/wiki/SHA-2
 
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/api-reference/peripherals/hmac.html
 
+- Running a Buffer Overflow Attack (Understand what is Overflow attack and how ?)
+
+https://www.youtube.com/watch?v=1S0aBV-Waeo
+
+- Dynamic memory allocation in C - malloc() / calloc() / realloc() / free() / (Understand how to allocate heap meamory?)
+
+https://www.youtube.com/watch?v=xDVC3wKjS64
+
 - Setting MQTT server on windows by using mosquitto  (tutorial video):
 
 https://www.youtube.com/watch?v=DH-VSAACtBk
+
+- Esp32 - DH11 Sensor - MQTT - Node-red application code (tutorial example):
+
+https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
 
 - Node-red tutorial video: 
 
