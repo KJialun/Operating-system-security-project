@@ -16,12 +16,14 @@ Make your first program using the arduino IDE:
 
 https://docs.arduino.cc/built-in-examples/basics/Blink
 
-esp32 MQTT Node-red reference
-
-https://www.bilibili.com/video/BV14G4y1h7aJ/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=4cdbb5ede3d02f6722fb42ac860bd41c
+Esp32 - DH11 Sensor - MQTT - Node-red reference:
 
 https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
 
-Freertos base on esp32 tutorial videos 
+Node-red tutorial video: 
+
+https://www.bilibili.com/video/BV14G4y1h7aJ/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=4cdbb5ede3d02f6722fb42ac860bd41c
+
+Freertos base on esp32 tutorial videos: 
 
 https://www.youtube.com/watch?v=F321087yYy4&list=PLEBQazB0HUyQ4hAPU1cJED6t3DU0h34bz
