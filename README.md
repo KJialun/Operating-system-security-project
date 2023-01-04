@@ -10,4 +10,6 @@ https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32
 
 esp32 reference
 
+https://www.bilibili.com/video/BV14G4y1h7aJ/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=4cdbb5ede3d02f6722fb42ac860bd41c
+
 https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
