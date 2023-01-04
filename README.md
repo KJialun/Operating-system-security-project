@@ -4,7 +4,7 @@ Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 ## Document description :
 
 - CP210x_Universal_Windows_Driver : ESP32 driver 
-- Documentation                   : ESP32 AND DH11 sensor description documents (Ex: I/O)
+- Documentation                   : ESP32 AND DH11 sensor datasheet documents
 - OS_MULTI_TASK_Schedule          : Single Esp32 communicates with the server  
 - Two_esp_comm                    : Two Esp32 communication through the MQTT server 
 - lib                             : The libraries used in this project 
