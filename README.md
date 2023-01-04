@@ -16,7 +16,7 @@ Make your first program using the arduino IDE:
 
 https://docs.arduino.cc/built-in-examples/basics/Blink
 
-Esp32 - DH11 Sensor - MQTT - Node-red reference:
+Esp32 - DH11 Sensor - MQTT - Node-red application example (tutorial):
 
 https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/
 
