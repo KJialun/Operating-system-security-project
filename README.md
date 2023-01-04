@@ -21,7 +21,7 @@ Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 
 https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
 
-- Additional boards manager URLs: 
+- Additional boards manager URLs (In your Arduino IDE, go to File> Preferences): 
 
 https://dl.espressif.com/dl/package_esp32_index.json 
 
