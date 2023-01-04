@@ -42,7 +42,7 @@ https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/api-reference/peri
 
 https://www.youtube.com/watch?v=1S0aBV-Waeo
 
-- Dynamic memory allocation in C - malloc() / calloc() / realloc() / free() / (Understand how to allocate heap meamory?)
+- Dynamic memory allocation in C - malloc() / calloc() / realloc() / free() / (Understand how to allocate heap meamory? tutorial video)
 
 https://www.youtube.com/watch?v=xDVC3wKjS64
 
@@ -61,3 +61,6 @@ https://www.bilibili.com/video/BV14G4y1h7aJ/?spm_id_from=333.1007.top_right_bar_
 - Freertos base on esp32 tutorial videos: 
 
 https://www.youtube.com/watch?v=F321087yYy4&list=PLEBQazB0HUyQ4hAPU1cJED6t3DU0h34bz
+
+- Peformance benchmarking with FREERTOS | ADVANCED ESP32:
+https://www.youtube.com/watch?v=WxnCP7HwWjc
