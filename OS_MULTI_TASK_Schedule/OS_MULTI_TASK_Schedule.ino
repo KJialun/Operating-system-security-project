@@ -329,6 +329,9 @@ void ThreadSensorEntry(void *pvParameters) {
 
       vTaskDelay(pdMS_TO_TICKS(3000));
     }
+
+    Serial.print("how many stack meamory left for sensor task (byte)");
+    Serial.println(uxTaskGetStackHighWaterMark(NULL));
   }
 }
 
@@ -668,17 +671,23 @@ void mqtt_connect() {
  * @retval:none
 */
 void callback(char *topic, byte *message, unsigned int length) {
-  Serial.printf(" ");
+  Serial.println(" ");
   Serial.println("Message arrived on topic: ");
   Serial.println(topic);
   if (Mode == 0) {
-    String temp;           //存放消息
+    String temp;           //temperature
+    String humid;           //Humidity
 
-     for (uint8_t i = 0; i < length ; i++) {
+     for (uint8_t i = 0; i < 2 ; i++) {
        temp += (char)message[i];
       };
-    Serial.println("Received data: ");
+     for (uint8_t i = 2; i < 4 ; i++) {
+       humid += (char)message[i];
+      };
+    Serial.println("Received temperature: ");
     Serial.println(temp);
+    Serial.println("Received Humidity: ");
+    Serial.println(humid);
   }
 
 
@@ -688,7 +697,8 @@ void callback(char *topic, byte *message, unsigned int length) {
       Received[i] = (char)message[i];
     };
 
-    uint8_t encrypt_len = (uint8_t)Received[length - 1];
+    // uint8_t encrypt_len = (uint8_t)Received[length - 1];
+    uint8_t encrypt_len = 16;
     for (uint8_t i = 0; i < encrypt_len; i++) {
       Receive_encrypted[i] = (char)Received[i];
     };
@@ -771,9 +781,9 @@ void callback(char *topic, byte *message, unsigned int length) {
 
         Received_temperature = (atoi((char *)unpadding_decrypted)) / 100;
         Received_humidity = (atoi((char *)unpadding_decrypted)) % 100;
-        //Serial.println("Received temperature: ");
+        Serial.println("Received temperature: ");
         Serial.println(Received_temperature);  // temperature and  humidity
-        //Serial.println("Received Humidity: ");
+        Serial.println("Received Humidity: ");
         Serial.println(Received_humidity);
 
 
