@@ -48,6 +48,8 @@ https://en.wikipedia.org/wiki/SHA-2
 
 - Hash-based Message Authentication Code (HMAC)  for Authentication  : 
 
+https://techtutorialsx.com/2018/01/25/esp32-arduino-applying-the-hmac-sha-256-mechanism/
+
 https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/api-reference/peripherals/hmac.html
 
 - Running a Buffer Overflow Attack (Understand what is Overflow attack and how ?)
