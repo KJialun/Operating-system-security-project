@@ -1,7 +1,7 @@
 #include <math.h>
 
-#define PIN_CORE0 13
-#define PIN_CORE1 14
+#define PIN_CORE0 32
+#define PIN_CORE1 33
 
 #define MSG_RESULT_SZE 20
 
@@ -76,7 +76,11 @@ void myCore1Task(void *pvParameters) {
   while (1) {
     do_messure();
     delay(1000);
+    Serial.print("how many stack meamory left for myCore1Task (byte)");
+    Serial.println(uxTaskGetStackHighWaterMark(NULL));
   }
+
+
 }
 
 void myResultTask(void *pvParameters) {
@@ -90,8 +94,14 @@ void myResultTask(void *pvParameters) {
     if(xQueueReceive(result_queue,&msg,portMAX_DELAY)==pdTRUE) {  // max wait
       Serial.println(String("core ")+String(msg[0]));
       Serial.println(String("ESP32 ---- total execution time: ")+String((double)msg[11]/1000)+String(" s\n"));
+      
     }
+    Serial.print("how many stack meamory left for myResultTask (byte)");
+    Serial.println(uxTaskGetStackHighWaterMark(NULL));    
   }
+
+    
+
 }
 
 void setup() {
@@ -102,8 +112,8 @@ void setup() {
     result_queue = xQueueCreate(10, sizeof(uint32_t)*MSG_RESULT_SZE);
 
     xTaskCreatePinnedToCore(myCore0Task, "myCore0Task", 1024, (void *)0, 1, NULL, 0); // run on core 0
-    xTaskCreatePinnedToCore(myCore1Task, "myCore1Task", 1024, (void *)1, 1, NULL, 1); // run on core 1
-    xTaskCreatePinnedToCore(myResultTask, "myResultTask", 1024, (void *)1, 1, NULL, 1); // run on core 1
+    xTaskCreatePinnedToCore(myCore1Task, "myCore1Task", 1024 * 2, (void *)1, 1, NULL, 1); // run on core 1
+    xTaskCreatePinnedToCore(myResultTask, "myResultTask", 1024 * 2, (void *)1, 1, NULL, 1); // run on core 1
 }
 
 void loop() {
