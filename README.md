@@ -8,8 +8,8 @@ Arduino/Esp32/freertos/MQTT/AES encryption/authentication &amp; integrity check
 - Two_esp_comm                    : The code of two Esp32 communication through the MQTT server 
 - lib                             : The libraries used in this project 
 - mosquitto                       : MQTT server Software
-- ESP32_Single_Core.ino           : The code of performance test by using single core 
-- ESP32_Dual_Core.ino             : The code of Performance test by using Dual core
+- Core_performance_test           : The code of performance test by using single & dual core 
+
 
 
 ## ESP32 Hardware Schematic  
